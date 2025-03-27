@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Diabetic Retinopathy Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            color: white;
+        }
+        .navbar {
+            width: 100%;
+            padding: 15px 20px;
+            background: white;
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        .navbar h2 {
+            color: #ff4f81;
+            flex-grow: 1;
+            text-align: center;
+        }
+        .profile-container {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            background: #ff4f81;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: white;
+            color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            width: 250px;
+        }
+        .profile-dropdown p {
+            margin: 8px 0;
+        }
+        .edit-btn, .logout-btn, .save-btn, .cancel-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .edit-btn {
+            background: #ff4f81;
+            color: white;
+        }
+        .edit-btn:hover {
+            background: #e63967;
+        }
+        .logout-btn {
+            background: #ccc;
+        }
+        .logout-btn:hover {
+            background: #aaa;
+        }
+        .profile-form {
+            display: none;
+            margin-top: 10px;
+        }
+        .profile-form input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .save-btn {
+            background: #28a745;
+            color: white;
+        }
+        .save-btn:hover {
+            background: #218838;
+        }
+        .cancel-btn {
+            background: #dc3545;
+            color: white;
+        }
+        .cancel-btn:hover {
+            background: #c82333;
+        }
+        .container {
+            padding-top: 100px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h2>Welcome!</h2>
+        <div class="profile-container">
+            <div class="profile-icon" id="profile-icon">U</div>
+            <div class="profile-dropdown" id="profile-dropdown">
+                <h3>Profile Details</h3>
+                <div id="profile-view">
+                    <p><strong>Name:</strong> <span id="name">-</span></p>
+                    <p><strong>Email:</strong> <span id="email">-</span></p>
+                    <p><strong>Phone:</strong> <span id="phone">-</span></p>
+                    <button class="edit-btn" onclick="showEditProfile()">Edit Profile</button>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+                <div class="profile-form" id="profile-form">
+                    <input type="text" id="edit-name" placeholder="Full Name">
+                    <input type="email" id="edit-email" placeholder="Email">
+                    <input type="tel" id="edit-phone" placeholder="Phone Number">
+                    <button class="save-btn" onclick="saveProfile()">Save</button>
+                    <button class="cancel-btn" onclick="cancelEdit()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Your diabetic retinopathy management portal</h1>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let storedName = localStorage.getItem("username") || "User";
+            let storedEmail = localStorage.getItem("useremail") || "Not provided";
+            let storedPhone = localStorage.getItem("userphone") || "Not provided";
+
+            document.getElementById("name").textContent = storedName;
+            document.getElementById("email").textContent = storedEmail;
+            document.getElementById("phone").textContent = storedPhone;
+            document.getElementById("profile-icon").textContent = storedName.charAt(0).toUpperCase();
+        });
+
+        function toggleProfile() {
+            let profileDropdown = document.getElementById("profile-dropdown");
+            profileDropdown.style.display = (profileDropdown.style.display === "block") ? "none" : "block";
+        }
+
+        function showEditProfile() {
+            document.getElementById("profile-view").style.display = "none";
+            document.getElementById("profile-form").style.display = "block";
+
+            document.getElementById("edit-name").value = document.getElementById("name").textContent;
+            document.getElementById("edit-email").value = document.getElementById("email").textContent;
+            document.getElementById("edit-phone").value = document.getElementById("phone").textContent;
+        }
+
+        function saveProfile() {
+            let name = document.getElementById("edit-name").value;
+            let email = document.getElementById("edit-email").value;
+            let phone = document.getElementById("edit-phone").value;
+
+            localStorage.setItem("username", name);
+            localStorage.setItem("useremail", email);
+            localStorage.setItem("userphone", phone);
+
+            document.getElementById("name").textContent = name;
+            document.getElementById("email").textContent = email;
+            document.getElementById("phone").textContent = phone;
+            document.getElementById("profile-icon").textContent = name.charAt(0).toUpperCase();
+
+            alert("Profile updated successfully!");
+            cancelEdit();
+        }
+
+        function cancelEdit() {
+            document.getElementById("profile-view").style.display = "block";
+            document.getElementById("profile-form").style.display = "none";
+        }
+
+        function logout() {
+            localStorage.removeItem("username");
+            localStorage.removeItem("useremail");
+            localStorage.removeItem("userphone");
+            alert("Logging out...");
+            window.location.href = "index.html";
+        }
+
+        document.getElementById("profile-icon").addEventListener("click", toggleProfile);
+    </script>
+</body>
+</html>

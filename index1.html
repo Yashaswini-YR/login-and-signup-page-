@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f9f8f9, #fefdfd);
+        }
+        .container {
+            width: 400px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 6px;
+            background: #f0f0f0;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #6f73de;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #6f73de;
+        }
+        .toggle {
+            margin-top: 15px;
+            color:#6f73de;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div class="container" id="login-box">
+        <h2>Login</h2>
+        <input type="text" id="login-email" placeholder="Email or Phone Number">
+        <input type="password" id="login-password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p class="toggle" onclick="toggleForm()">Don't have an account? Sign up</p>
+    </div>
+    
+    <!-- Signup Form -->
+    <div class="container" id="signup-box" style="display: none;">
+        <h2>Create Account</h2>
+        <input type="text" id="signup-name" placeholder="First Name">
+        <input type="text" id="signup-email" placeholder="Email">
+        <input type="text" id="signup-phone" placeholder="Phone Number">
+        <input type="password" id="signup-password" placeholder="Password">
+        <button onclick="signup()">Sign Up</button>
+        <p class="toggle" onclick="toggleForm()">Already have an account? Login</p>
+    </div>
+        
+    <script>
+        function toggleForm() {
+            const loginBox = document.getElementById('login-box');
+            const signupBox = document.getElementById('signup-box');
+            
+            if (loginBox.style.display === 'none') {
+                loginBox.style.display = 'block';
+                signupBox.style.display = 'none';
+            } else {
+                loginBox.style.display = 'none';
+                signupBox.style.display = 'block';
+            }
+        }
+
+        function signup() {
+            let name = document.getElementById("signup-name").value;
+            let email = document.getElementById("signup-email").value;
+            let phone = document.getElementById("signup-phone").value;
+            let password = document.getElementById("signup-password").value;
+
+            if (!name || !email || !phone || !password) {
+                alert("Please fill all fields!");
+                return;
+            }
+
+            localStorage.setItem("username", name);
+            localStorage.setItem("useremail", email);
+            localStorage.setItem("userphone", phone);
+            localStorage.setItem("userpassword", password);
+
+            alert("Signup successful! Please login.");
+            toggleForm();
+        }
+
+        function login() {
+            let emailOrPhone = document.getElementById("login-email").value;
+            let password = document.getElementById("login-password").value;
+
+            let storedEmail = localStorage.getItem("useremail");
+            let storedPhone = localStorage.getItem("userphone");
+            let storedPassword = localStorage.getItem("userpassword");
+
+            if ((emailOrPhone === storedEmail || emailOrPhone === storedPhone) && password === storedPassword) {
+                alert("Login successful!");
+                window.location.href = "home1.html";
+            } else {
+                alert("Invalid login credentials!");
+            }
+        }
+    </script>
+</body>
+</html>

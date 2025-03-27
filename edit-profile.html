@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ff4f81;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #e63967;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Profile</h2>
+        <input type="text" id="edit-name" placeholder="Full Name">
+        <input type="email" id="edit-email" placeholder="Email">
+        <input type="tel" id="edit-phone" placeholder="Phone Number">
+        <button onclick="saveProfile()">Save Changes</button>
+    </div>
+
+    <script>
+        // Load existing profile details
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("edit-name").value = localStorage.getItem("username") || "";
+            document.getElementById("edit-email").value = localStorage.getItem("useremail") || "";
+            document.getElementById("edit-phone").value = localStorage.getItem("userphone") || "";
+        });
+
+        function saveProfile() {
+            let name = document.getElementById("edit-name").value;
+            let email = document.getElementById("edit-email").value;
+            let phone = document.getElementById("edit-phone").value;
+
+            // Save to local storage
+            localStorage.setItem("username", name);
+            localStorage.setItem("useremail", email);
+            localStorage.setItem("userphone", phone);
+
+            alert("Profile updated successfully!");
+            window.location.href = "home.html"; // Redirect back to home page
+        }
+    </script>
+</body>
+</html>
